@@ -69,7 +69,7 @@ public class LoginManager : MonoBehaviour
 
     private void HandleServerStarted()
     {
-        
+
     }
 
     [ServerRpc]
@@ -161,14 +161,14 @@ public class LoginManager : MonoBehaviour
         {
             switch (NetworkManager.Singleton.ConnectedClients.Count % 4)
             {
+                case 0:
+                    return new Vector3(1f,1f,1f);
                 case 1: 
                     return new Vector3(0f,1f,0f);
                 case 2: 
                     return new Vector3(-2f,1f,0f);
                 case 3: 
                     return new Vector3(2f,1f,2f);
-                case 4: 
-                    return new Vector3(-3f,1f,1f);
             }
         }
 
@@ -177,9 +177,13 @@ public class LoginManager : MonoBehaviour
 
     void SetClientData()
     {
-        for(int i = 0; i < clientDatas.Count; i++)
+        if(NetworkManager.Singleton.IsServer)
         {
-            NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject.GetComponent<MainPlayer>().Initialization(clientDatas[i].name);
+            for(int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
+            {
+                // Debug.Log(NetworkManager.Singleton.ConnectedClients[(ulong)i].ClientId);
+                NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject.GetComponent<MainPlayer>().Initialization(clientDatas[i].name);
+            }
         }
     }
 }

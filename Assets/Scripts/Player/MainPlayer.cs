@@ -36,13 +36,20 @@ public class MainPlayer : NetworkBehaviour
 
     public void Initialization(string name)
     {
-        clientData.name = name;
-        SetPlayerUI();
+        ChangeNamgeServerRpc(new DataCollect(name));
+    }
+
+    private void Update() 
+    {
+        if(clientData.name != "")
+        {
+            SetPlayerUI();
+        }    
     }
 
     private void FixedUpdate() 
     {
-        if(IsClient && IsOwner)
+        if(IsOwner && IsLocalPlayer)
         {
             MoveForward();
             MoveRotation();
@@ -73,4 +80,19 @@ public class MainPlayer : NetworkBehaviour
             rigidbody.angularVelocity = Vector3.zero;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeNamgeServerRpc(DataCollect data)
+    {
+        ChangeNamgeClientRpc(data);
+    }
+
+    [ClientRpc]
+    void ChangeNamgeClientRpc(DataCollect data)
+    {
+        clientData.name = data.playerName;
+        SetPlayerUI();
+    }
+
+
 }

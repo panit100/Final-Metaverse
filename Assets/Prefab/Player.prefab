@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 8170894079813710153}
   - component: {fileID: 2131481819}
   - component: {fileID: 2131481820}
-  - component: {fileID: 496535886}
+  - component: {fileID: 6243937087410670608}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -483,7 +483,7 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   Vcam: {fileID: 8170894078398547977}
---- !u!114 &496535886
+--- !u!114 &6243937087410670608
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -623,3 +623,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 488453318}
+  clientName: 
