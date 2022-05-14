@@ -58,7 +58,7 @@ public class LoginManager : MonoBehaviour
 
     private void HandleClientConnected(ulong clientId)
     {
-        HandleSetCamera();
+        HandleSetCameraServerRpc();
         
         if(clientId == NetworkManager.Singleton.LocalClientId){
             connectedEvent();
@@ -73,7 +73,13 @@ public class LoginManager : MonoBehaviour
     }
 
     [ServerRpc]
-    void HandleSetCamera()
+    void HandleSetCameraServerRpc()
+    {
+        HandleSetCameraClientRpc();
+    }
+
+    [ClientRpc]
+    void HandleSetCameraClientRpc()
     {
         SetCamera();
     }

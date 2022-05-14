@@ -20,6 +20,7 @@ public class ClientData
 
 public class MainPlayer : NetworkBehaviour
 {
+    Rigidbody rigidbody;
     public GameObject _mainCamera;
     StarterAssetsInputs _input;
     PlayerInput _playerInput;
@@ -40,37 +41,41 @@ public class MainPlayer : NetworkBehaviour
     
     public ClientData clientData;
     public float speed = 5f;
-    // public float rotationSpeed = 10f;
-    
-    
 
     [Header("Camera")]
     public CinemachineVirtualCamera CinemachineCamera;
     public GameObject CinemachineCameraTarget;
-    public float TopClamp = 70.0f;
-    public float BottomClamp = -30.0f;
-    public float CameraAngleOverride = 0.0f;
-    public bool LockCameraPosition = false;
+    // public float TopClamp = 70.0f;
+    // public float BottomClamp = -30.0f;
+    // public float CameraAngleOverride = 0.0f;
+    // public bool LockCameraPosition = false;
+    // public bool cursorState = false;
     
 
     public event Action SetPlayerUI = delegate { };
+    // public event Action SetCamera = delegate { };
     public event Action<Vector3,Transform> MoveRotate = delegate { };
-
-    Rigidbody rigidbody;
 
     protected void Awake()
     {
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        
     }
 
     private void Start() 
     {
-        rigidbody = this.GetComponent<Rigidbody>();
-
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        if(IsOwner && IsLocalPlayer)
+        {
+            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
-        _input = GetComponent<StarterAssetsInputs>();
-        _playerInput = GetComponent<PlayerInput>();
+            _input = GetComponent<StarterAssetsInputs>();
+            _input.SetCursorState(true);
+
+            _playerInput = GetComponent<PlayerInput>();
+            _playerInput.enabled = true;
+        }
+
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     public void Initialization(string name)
@@ -84,6 +89,11 @@ public class MainPlayer : NetworkBehaviour
         {
             SetPlayerUI();
         }    
+
+        if(IsOwner && IsLocalPlayer)
+        {
+            // SetCursorState();
+        }
     }
 
     private void FixedUpdate() 
@@ -91,12 +101,8 @@ public class MainPlayer : NetworkBehaviour
         if(IsOwner && IsLocalPlayer)
         {
             MoveForward();
+            // CameraRotation();
         }
-    }
-
-    protected void LateUpdate()
-    {
-        CameraRotation();
     }
 
     void MoveForward()
@@ -104,39 +110,27 @@ public class MainPlayer : NetworkBehaviour
         float Vertical = Input.GetAxis("Vertical");
         float Horizontal = Input.GetAxis("Horizontal");
 
+        transform.rotation = Quaternion.identity;
+
+        // rigidbody.velocity = Vector3.zero;
+        // rigidbody.angularVelocity = Vector3.zero;
+
         Vector3 direction = new Vector3(Horizontal,0,Vertical).normalized;
 
         if(direction.magnitude >= 0.1f)
         {
             MoveRotate(direction,_mainCamera.transform);
 
-            // Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
-
             direction = Camera.main.transform.TransformDirection(direction);
             direction.y = 0.0f;
 
-            // rigidbody.velocity = direction * speed * Time.deltaTime;
             transform.Translate(direction * speed * Time.deltaTime);
         }
 
-        // rigidbody.MovePosition(rigidbody.position + translation);
+        
+
+        
     }
-
-    // void MoveRotation()
-    // {
-    //     float rotation = Input.GetAxis("Horizontal");
-
-    //     if(rotation != 0)
-    //     {
-    //         rotation *= rotationSpeed;
-    //         Quaternion turn = Quaternion.Euler(0f,rotation,0f);
-    //         rigidbody.MoveRotation(rigidbody.rotation * turn);
-    //     }
-    //     else
-    //     {
-    //         rigidbody.angularVelocity = Vector3.zero;
-    //     }
-    // }
 
     [ServerRpc(RequireOwnership = false)]
     public void ChangeNamgeServerRpc(DataCollect data)
@@ -151,33 +145,39 @@ public class MainPlayer : NetworkBehaviour
         SetPlayerUI();
     }
 
-    protected void CameraRotation()
-    {
-        // if there is an input and camera position is not fixed
-        if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-        {
-            //Don't multiply mouse input by Time.deltaTime;
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+    // protected void CameraRotation()
+    // {
+    //     // if there is an input and camera position is not fixed
+    //     if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+    //     {
+    //         //Don't multiply mouse input by Time.deltaTime;
+    //         float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-        }
+    //         _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
+    //         _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+    //     }
 
-        // clamp our rotations so our values are limited 360 degrees
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+    //     // clamp our rotations so our values are limited 360 degrees
+    //     _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+    //     _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-        // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-            _cinemachineTargetYaw, 0.0f);
-    }
+    //     // Cinemachine will follow this target
+    //     CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+    //         _cinemachineTargetYaw, 0.0f);
+    // }
 
-    protected static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-        {
-            if (lfAngle < -360f) lfAngle += 360f;
-            if (lfAngle > 360f) lfAngle -= 360f;
-            return Mathf.Clamp(lfAngle, lfMin, lfMax);
-        }
+    // protected static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    // {
+    //     if (lfAngle < -360f) lfAngle += 360f;
+    //     if (lfAngle > 360f) lfAngle -= 360f;
+    //     return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    // }
+
+    // public void SetCursorState(){
+    //     if(Input.GetKeyDown(KeyCode.Escape)){
+    //         _input.SetCursorState(!cursorState);
+    //     }
+    // }
 
 
 }
