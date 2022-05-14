@@ -1218,7 +1218,7 @@ GameObject:
   - component: {fileID: 1021677588}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1349,7 +1349,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021677587}
   m_LocalRotation: {x: 0.21043712, y: 0, z: 0, w: 0.9776074}
-  m_LocalPosition: {x: -0.5, y: 4.637472, z: -4.958285}
+  m_LocalPosition: {x: -0.5, y: 3.8874726, z: -4.958285}
   m_LocalScale: {x: 1, y: 1.0000001, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1426,10 +1426,10 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1358119861}
-    PlayerPrefab: {fileID: 8170894079813710150, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+    PlayerPrefab: {fileID: 1279442757399252501, guid: d4a36e7d6b0a714449ac6bca865722f3, type: 3}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 8170894079813710150, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+      Prefab: {fileID: 1279442757399252501, guid: d4a36e7d6b0a714449ac6bca865722f3, type: 3}
       SourcePrefabToOverride: {fileID: 8170894079813710150, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}

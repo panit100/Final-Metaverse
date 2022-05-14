@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
         {
             if(n.GetComponent<NetworkObject>().IsOwner)
             {
-                n.Vcam.gameObject.SetActive(true);
+                n.CinemachineCamera.gameObject.SetActive(true);
             }
         }
     }
