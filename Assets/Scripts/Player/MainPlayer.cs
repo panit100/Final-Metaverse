@@ -49,7 +49,7 @@ public class MainPlayer : NetworkBehaviour
     // public float BottomClamp = -30.0f;
     // public float CameraAngleOverride = 0.0f;
     // public bool LockCameraPosition = false;
-    // public bool cursorState = false;
+    public bool cursorState = true;
     
 
     public event Action SetPlayerUI = delegate { };
@@ -69,7 +69,7 @@ public class MainPlayer : NetworkBehaviour
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _input = GetComponent<StarterAssetsInputs>();
-            _input.SetCursorState(true);
+            _input.SetCursorState(cursorState);
 
             _playerInput = GetComponent<PlayerInput>();
             _playerInput.enabled = true;
@@ -92,7 +92,7 @@ public class MainPlayer : NetworkBehaviour
 
         if(IsOwner && IsLocalPlayer)
         {
-            // SetCursorState();
+            SetCursorState();
         }
     }
 
@@ -110,7 +110,7 @@ public class MainPlayer : NetworkBehaviour
         float Vertical = Input.GetAxis("Vertical");
         float Horizontal = Input.GetAxis("Horizontal");
 
-        transform.rotation = Quaternion.identity;
+        // transform.rotation = Quaternion.identity;
 
         // rigidbody.velocity = Vector3.zero;
         // rigidbody.angularVelocity = Vector3.zero;
@@ -120,16 +120,12 @@ public class MainPlayer : NetworkBehaviour
         if(direction.magnitude >= 0.1f)
         {
             MoveRotate(direction,_mainCamera.transform);
-
+        }
+        
             direction = Camera.main.transform.TransformDirection(direction);
             direction.y = 0.0f;
 
             transform.Translate(direction * speed * Time.deltaTime);
-        }
-
-        
-
-        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -173,11 +169,20 @@ public class MainPlayer : NetworkBehaviour
     //     return Mathf.Clamp(lfAngle, lfMin, lfMax);
     // }
 
-    // public void SetCursorState(){
-    //     if(Input.GetKeyDown(KeyCode.Escape)){
-    //         _input.SetCursorState(!cursorState);
-    //     }
-    // }
+    public void SetCursorState(){
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            if(cursorState)
+            {
+                cursorState = false;
+            }
+            else
+            {
+                cursorState = true;
+            }
+        }
+
+        _input.SetCursorState(cursorState);
+    }
 
 
 }
