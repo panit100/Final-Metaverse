@@ -117,7 +117,7 @@ public class LoginManager : MonoBehaviour
     {
         string Approve = Encoding.ASCII.GetString(connectionData);
         string[] Room = Approve.Split("_");
-        bool approve1 = GetPlayerName(Room[0]);
+        bool approve1 = GetPlayerName(clientId,Room[0]);
         bool approve2 = ApprovePassword(Room[1]);
         
         // bool approveConnection = playerName != playerNameInputField.text;
@@ -131,7 +131,7 @@ public class LoginManager : MonoBehaviour
         callback(createPlayerObject, null, approve1 && approve2, spawnPosition, null);
     }
 
-    bool GetPlayerName(string clientName)
+    bool GetPlayerName(ulong clientId,string clientName)
     {
         foreach(ClientData clientData in clientDatas){
             if(clientName == clientData.name){
@@ -139,7 +139,7 @@ public class LoginManager : MonoBehaviour
             }
         }
 
-        clientDatas.Add(new ClientData(clientName));
+        clientDatas.Add(new ClientData(clientId,clientName));
 
         return true;
     }
