@@ -1,12 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FishingController : MonoBehaviour
 {
+
+    //public GameObject Ebutton;
+
     public Transform center;
     public float fishingRadius;
-    // public bool isFishing = false;
+    //public bool isFishing = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,22 +18,18 @@ public class FishingController : MonoBehaviour
 
     void Fishing()
     {
-        Collider[] hit = Physics.OverlapSphere(center.position,fishingRadius);
-        foreach(Collider n in hit)
+        Collider[] hit = Physics.OverlapSphere(center.position, fishingRadius);
+        foreach (Collider n in hit)
         {
             if(n.CompareTag("Water"))
-            {
-                // isFishing = true;
-                Debug.Log("Fishing");
-            }
+            { Debug.Log("Fishing"); }
             else
-            {
-                return;
-            }
+            { Debug.Log("Not fishing"); }
         }
+
     }
 
-    private void OnDrawGizmos() 
+        private void OnDrawGizmos() 
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(center.position, fishingRadius);

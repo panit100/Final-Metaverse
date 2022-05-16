@@ -2385,6 +2385,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 41605236
       objectReference: {fileID: 0}
+    - target: {fileID: 1279442758171109117, guid: d4a36e7d6b0a714449ac6bca865722f3, type: 3}
+      propertyPath: fishingRadius
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a36e7d6b0a714449ac6bca865722f3, type: 3}
 --- !u!1 &1693074605

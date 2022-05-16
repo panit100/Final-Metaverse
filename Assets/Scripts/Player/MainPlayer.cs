@@ -42,6 +42,8 @@ public class MainPlayer : NetworkBehaviour
     public event Action SetPlayerUI = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
+    public event Action ShowSpacebar = delegate { };
+
 
     protected void Awake()
     {
@@ -77,6 +79,9 @@ public class MainPlayer : NetworkBehaviour
             SetPlayerUI();
         }    
 
+
+
+
         if(IsOwner && IsLocalPlayer)
         {
             if(Input.GetKeyDown(KeyCode.Space))
@@ -88,6 +93,7 @@ public class MainPlayer : NetworkBehaviour
             }
 
         }
+
     }
 
     private void FixedUpdate() 
