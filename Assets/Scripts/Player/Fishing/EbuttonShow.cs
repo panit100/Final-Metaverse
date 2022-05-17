@@ -27,14 +27,11 @@ public class EbuttonShow : MonoBehaviour
             if (n.CompareTag("Water") && FishingRun != true)
             {
                 imageEbutton.SetActive(true);
-               // Debug.Log("Tag : Water");
                 return;
             }
-
         }
         imageEbutton.SetActive(false);
     }
-
 
     void CheckShowSpacebar()
     {
