@@ -7,7 +7,6 @@ public class PlayerRotation : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     private void Start() {
-        // GetComponentInParent<MainPlayer>().MoveRotate += MoveRotation;
         GetComponentInParent<PlayerMove>().MoveRotate += MoveRotation;
     }
 

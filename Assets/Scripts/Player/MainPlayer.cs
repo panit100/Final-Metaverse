@@ -6,6 +6,7 @@ using System;
 using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class ClientData
@@ -13,6 +14,7 @@ public class ClientData
     public ulong clientId;
     public string name;
     public bool isFishing;
+    public string chatText;
 
     public ClientData(ulong _clientId,string _name)
     {
@@ -38,8 +40,14 @@ public class MainPlayer : NetworkBehaviour
     public CinemachineVirtualCamera CinemachineCamera;
     public GameObject CinemachineCameraTarget;
 
+    [Header("Chat")]
+    public GameObject ChatCanvas;
+    public InputField inputText;
+    public bool isTyping = false;
 
-    public event Action SetPlayerUI = delegate { };
+
+    public event Action SetPlayerNameUI = delegate { };
+    public event Action SetPlayerChatText = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
 
@@ -72,11 +80,59 @@ public class MainPlayer : NetworkBehaviour
 
     private void Update() 
     {
+        HandleSetName();
+
+        if(inputText.isFocused)
+        {
+            isTyping = true;
+        }else
+        {
+            isTyping = false;
+        }
+    }
+
+    private void FixedUpdate() 
+    {
+        if(isTyping) return;
+        HandleMove();
+
+        HandleFishing();
+    }
+
+    //Move
+    void HandleMove()
+    {
+        if(IsOwner && IsLocalPlayer)
+        {
+            MovePosition(_mainCamera,rigidbody);
+        }
+    }
+
+    //Name
+    void HandleSetName()
+    {
         if(clientData.name != "")
         {
-            SetPlayerUI();
-        }    
+            SetPlayerNameUI();
+        }   
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeNamgeServerRpc(DataCollect data)
+    {
+        ChangeNamgeClientRpc(data);
+    }
 
+    [ClientRpc]
+    void ChangeNamgeClientRpc(DataCollect data)
+    {
+        clientData.name = data.playerName;
+        SetPlayerNameUI();
+    }
+
+    //Fishing
+    public void HandleFishing()
+    {
         if(IsOwner && IsLocalPlayer)
         {
             if(Input.GetKeyDown(KeyCode.Space))
@@ -89,58 +145,7 @@ public class MainPlayer : NetworkBehaviour
 
         }
     }
-
-    private void FixedUpdate() 
-    {
-        if(IsOwner && IsLocalPlayer)
-        {
-            MovePosition(_mainCamera,rigidbody);
-        }
-    }
-
-    // void MoveForward()
-    // {
-    //     float Vertical = Input.GetAxis("Vertical");
-    //     float Horizontal = Input.GetAxis("Horizontal");
-
-    //     // transform.rotation = Quaternion.identity;
-
-    //     // rigidbody.velocity = Vector3.zero;
-    //     // rigidbody.angularVelocity = Vector3.zero;
-
-    //     Vector3 direction = new Vector3(Horizontal,0,Vertical).normalized;
-
-    //     if(direction.magnitude >= 0.1f)
-    //     {
-    //         MoveRotate(direction,_mainCamera.transform);
-    //         direction = Camera.main.transform.TransformDirection(direction);
-    //         direction.y = 0.0f;
-
-    //         transform.Translate(direction * speed * Time.deltaTime);
-    //     }
-    //     else
-    //     {
-    //         rigidbody.velocity = Vector3.zero;
-    //         rigidbody.angularVelocity = Vector3.zero;
-    //     }
-
-    //     transform.rotation = Quaternion.identity;
-    // }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ChangeNamgeServerRpc(DataCollect data)
-    {
-        ChangeNamgeClientRpc(data);
-    }
-
-    [ClientRpc]
-    void ChangeNamgeClientRpc(DataCollect data)
-    {
-        clientData.name = data.playerName;
-        SetPlayerUI();
-    }
-
-
+   
     [ServerRpc]
     public void HandleFishingServerRpc()
     {
@@ -153,4 +158,26 @@ public class MainPlayer : NetworkBehaviour
         Fishing();
         clientData.isFishing = true;
     }
+
+    //Chating
+    public void OnChatTextChange()
+    {
+        clientData.chatText = inputText.text;
+        inputText.text = "";
+        HandleChatingServerRpc(new DataChatCollect(clientData.chatText));
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HandleChatingServerRpc(DataChatCollect data)
+    {
+        HandleChatingClientRpc(data);
+    }
+
+    [ClientRpc]
+    public void HandleChatingClientRpc(DataChatCollect data)
+    {
+        clientData.chatText = data.chatText;
+        SetPlayerChatText();
+    }
+
 }

@@ -6,19 +6,14 @@ using UnityEngine.UI;
 using System;
 using System.Text;
 
-public class PlayerUI : NetworkBehaviour
+public class PlayerNameUI : NetworkBehaviour
 {
     public Text nameText;
-    // public NetworkVariable<NetworkString> clinetname = new NetworkVariable<NetworkString>();
     public string clientName;
 
     private void Start() 
     {
-        // clientName.Value = Encoding.ASCII.GetBytes(GetComponentInParent<MainPlayer>().clientData.name);
-        // clinetname.Value = "String";
-        // SetPlayerName(clinetname.ToString());
-
-        GetComponentInParent<MainPlayer>().SetPlayerUI += SetPlayerName;
+        GetComponentInParent<MainPlayer>().SetPlayerNameUI += SetPlayerName;
     }
 
     public void SetPlayerName()

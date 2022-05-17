@@ -24,6 +24,7 @@ public class LoginManager : MonoBehaviour
     public string password;
 
     public event Action SetCamera = delegate { };
+    public event Action SetChatUI = delegate { };
     public event Action connectedEvent = delegate { };
     public event Action disconnectedEvent = delegate { };
 
@@ -59,6 +60,7 @@ public class LoginManager : MonoBehaviour
     private void HandleClientConnected(ulong clientId)
     {
         HandleSetCameraServerRpc();
+        HandleSetChatUIServerRpc();
         
         if(clientId == NetworkManager.Singleton.LocalClientId){
             connectedEvent();
@@ -83,6 +85,18 @@ public class LoginManager : MonoBehaviour
     {
         SetCamera();
     }
+
+    [ServerRpc]
+    void HandleSetChatUIServerRpc()
+    {
+        HandleSetChatUIClientRpc();
+    }
+
+    [ClientRpc]
+    void HandleSetChatUIClientRpc()
+    {
+        SetChatUI();
+    }    
 
     public void Host() 
     {
