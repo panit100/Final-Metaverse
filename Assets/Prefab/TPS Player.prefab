@@ -701,13 +701,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5536996125016138385}
     - target: {fileID: 93400, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+      propertyPath: playerMove
+      value: 
+      objectReference: {fileID: 6669747537914653406}
+    - target: {fileID: 93400, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: fishingRadius
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 93400, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: spawnbarbutton
       value: 
       objectReference: {fileID: 5536996125016138385}
+    - target: {fileID: 93400, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+      propertyPath: PreferGameFishing
+      value: 
+      objectReference: {fileID: 3735259486595020471, guid: 34cf4ab8c11eebe48bf5180c4a236cd1, type: 3}
     - target: {fileID: 727024225933987195, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.47
@@ -784,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {fileID: 2006237938829707102}
-  fishingRadius: 0.5
+  fishingRadius: 0.75
   imageEbutton: {fileID: 5536996125016138385}
 --- !u!4 &2006237938829707102 stripped
 Transform:

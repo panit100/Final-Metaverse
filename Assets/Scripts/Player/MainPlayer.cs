@@ -42,7 +42,7 @@ public class MainPlayer : NetworkBehaviour
     public event Action SetPlayerUI = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
-    public event Action ShowSpacebar = delegate { };
+    public event Action CheckShowSpacebar = delegate { };
 
 
     protected void Awake()
@@ -56,7 +56,7 @@ public class MainPlayer : NetworkBehaviour
         if(IsOwner && IsLocalPlayer)
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+         
             _input = GetComponent<StarterAssetsInputs>();
             // _input.SetCursorState(cursorState);
 
@@ -157,6 +157,7 @@ public class MainPlayer : NetworkBehaviour
     public void HandleFishingClientRpc()
     {
         Fishing();
+        CheckShowSpacebar();
         clientData.isFishing = true;
     }
 }

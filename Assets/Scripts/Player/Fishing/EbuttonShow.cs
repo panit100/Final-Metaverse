@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class EbuttonShow : MonoBehaviour
 {
+    bool FishingRun = false;
+
     public Transform center;
     public float fishingRadius;
     public GameObject imageEbutton;
+
+    public void Start()
+    {   GetComponentInParent<MainPlayer>().CheckShowSpacebar += CheckShowSpacebar;  }
+
 
     void Update()
     {
@@ -18,17 +24,21 @@ public class EbuttonShow : MonoBehaviour
         Collider[] hit = Physics.OverlapSphere(center.position, fishingRadius);
         foreach (Collider n in hit)
         {
-            if (n.CompareTag("Water"))
+            if (n.CompareTag("Water") && FishingRun != true)
             {
                 imageEbutton.SetActive(true);
-                Debug.Log("Tag : Water");
+               // Debug.Log("Tag : Water");
+                return;
             }
-            else
-            {
-                imageEbutton.SetActive(false);
-                Debug.Log("Unknow");
-            }
+
         }
+        imageEbutton.SetActive(false);
+    }
+
+
+    void CheckShowSpacebar()
+    {
+        FishingRun = true;
     }
 
 }
