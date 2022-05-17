@@ -24,6 +24,7 @@ public class FishingController : MonoBehaviour
         GetComponentInParent<MainPlayer>().Fishing += Fishing;
     }
 
+
     void Fishing()
     {
         Collider[] hit = Physics.OverlapSphere(center.position, fishingRadius);

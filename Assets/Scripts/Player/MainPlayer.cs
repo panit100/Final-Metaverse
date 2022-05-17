@@ -24,6 +24,9 @@ public class ClientData
 
 public class MainPlayer : NetworkBehaviour
 {
+    //public MainPlayer Test;
+
+
     Rigidbody rigidbody;
     GameObject _mainCamera;
     StarterAssetsInputs _input;
@@ -62,6 +65,8 @@ public class MainPlayer : NetworkBehaviour
 
             _playerInput = GetComponent<PlayerInput>();
             _playerInput.enabled = true;
+
+            //Test.enabled = false;
         }
 
         rigidbody = GetComponent<Rigidbody>();
@@ -160,4 +165,5 @@ public class MainPlayer : NetworkBehaviour
         CheckShowSpacebar();
         clientData.isFishing = true;
     }
+
 }
