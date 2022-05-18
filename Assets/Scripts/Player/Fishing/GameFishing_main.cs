@@ -8,9 +8,10 @@ using System;
 public class GameFishing_main : MonoBehaviour
 {
     public Image BarFishing_Image;
-    public MainPlayer mainPlayer;
+    public FishingController fishingController; 
+    MainPlayer mainPlayer;
 
-    public event Action OnEndFishing = delegate { };
+    public event Action<int> OnEndFishing = delegate { };
 
     private void Start() {
         mainPlayer = GetComponentInParent<MainPlayer>();
@@ -41,7 +42,7 @@ public class GameFishing_main : MonoBehaviour
             gameObject.SetActive(false);
         }else if (BarFishing_Image.fillAmount == 1)
         {
-            OnEndFishing();
+            OnEndFishing(fishingController.fishingRod.gainFish);
             gameObject.SetActive(false);
         }
     }

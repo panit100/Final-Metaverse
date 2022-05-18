@@ -7,12 +7,14 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEditor;
 
 [System.Serializable]
 public class ClientData
 {
     public ulong clientId;
     public string name;
+    public FishingRodScriptableObject fishingRod;
     public bool isFishing;
     public string chatText;
     public int fishCoin;
@@ -22,15 +24,11 @@ public class ClientData
     {
         name = _name;
         clientId = _clientId;
-
     }
 }
 
 public class MainPlayer : NetworkBehaviour
 {
-    //public MainPlayer Test;
-
-
     Rigidbody rigidbody;
     GameObject _mainCamera;
     StarterAssetsInputs _input;
@@ -61,6 +59,7 @@ public class MainPlayer : NetworkBehaviour
     public event Action ShowSpaceBar = delegate { };
     public event Action<ClientData,int> SetGoldCoin = delegate { };
     public event Action<ClientData,int> SetFishCoin = delegate { };
+    public event Action<ClientData> PlayGacha = delegate { };
     
 
 
@@ -88,6 +87,12 @@ public class MainPlayer : NetworkBehaviour
         
         GetComponentInChildren<GameFishing_main>().OnEndFishing += OnEndFishingServerRpc;
         GetComponentInChildren<FishingController>().HandleFishing += HandleFishingServerRpc;
+
+#if UNITY_EDITOR
+        clientData.fishingRod = (FishingRodScriptableObject)AssetDatabase.LoadAssetAtPath("Assets/Resources/RookieRod.asset", typeof(FishingRodScriptableObject));
+#else
+        clientData.fishingRod = Resources.Load("RookieRod") as FishingRodScriptableObject;
+#endif
     }
 
     public void Initialization(string name)
@@ -180,16 +185,16 @@ public class MainPlayer : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void OnEndFishingServerRpc()
+    public void OnEndFishingServerRpc(int coin)
     {
-        OnEndFishingClientRpc();
+        OnEndFishingClientRpc(coin);
     }
 
     [ClientRpc]
-    public void OnEndFishingClientRpc()
+    public void OnEndFishingClientRpc(int coin)
     {
         clientData.isFishing = false;
-        SetFishCoin(clientData,1);
+        SetFishCoin(clientData,coin);
     }
 
     //Chating

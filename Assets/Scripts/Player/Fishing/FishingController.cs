@@ -3,23 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[System.Serializable]
-public class FishingRodData
-{
-    public string name;
-    [Range(0f,100f)]
-    public float dropRate = 0;
-
-    [Range(0f,100f)]
-    public float fishingChange = 0;
-
-}
-
 public class FishingController : MonoBehaviour
 {
-    public FishingRodData fishingRod;
+    public FishingRodScriptableObject fishingRod;
 
-    public GameFishing_main gameFishing_Main;
+    GameFishing_main gameFishing_Main;
     public Transform center;
     public float fishingRadius;
 
@@ -29,6 +17,11 @@ public class FishingController : MonoBehaviour
     {
         GetComponentInParent<MainPlayer>().Fishing += Fishing;
         gameFishing_Main = GetComponentInParent<MainPlayer>().gameObject.GetComponentInChildren<GameFishing_main>();
+    }
+
+    private void Update() 
+    {
+        fishingRod = GetComponentInParent<MainPlayer>().clientData.fishingRod;
     }
 
     void Fishing()
@@ -54,7 +47,7 @@ public class FishingController : MonoBehaviour
 
     void RandomFish()
     {
-        int RandomwaitFish = UnityEngine.Random.Range(1, 10);
+        int RandomwaitFish = UnityEngine.Random.Range(fishingRod.fishingChangeMin, fishingRod.fishingChangeMax);
         Debug.Log("Wait Fish");
         StartCoroutine(CreateGamefishing(RandomwaitFish));
     }
