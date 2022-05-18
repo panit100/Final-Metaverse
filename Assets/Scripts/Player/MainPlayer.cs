@@ -15,6 +15,8 @@ public class ClientData
     public string name;
     public bool isFishing;
     public string chatText;
+    public int fishCoin;
+    public int GoldCoin;
 
     public ClientData(ulong _clientId,string _name)
     {
@@ -50,6 +52,7 @@ public class MainPlayer : NetworkBehaviour
     public event Action SetPlayerChatText = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
+    public event Action<ClientData,int> SetCoin = delegate { };
 
     protected void Awake()
     {
@@ -179,5 +182,4 @@ public class MainPlayer : NetworkBehaviour
         clientData.chatText = data.chatText;
         SetPlayerChatText();
     }
-
 }
