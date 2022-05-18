@@ -21,16 +21,10 @@ public class FishingController : MonoBehaviour
     public FishingRodData fishingRod;
     public PlayerMove playerMove;
 
-    //public GameObject Ebutton;
-    //public event Action PlayerFishing = delegate { };
-
-    public GameObject PreferGameFishing;
-    GameObject PreferGameFishingLable;
-
+    public GameFishing_main gameFishing_Main;
     public Transform center;
     public float fishingRadius;
-    //public bool isFishing = false;
-    // Start is called before the first frame update
+
     void Start()
     {
         GetComponentInParent<MainPlayer>().Fishing += Fishing;
@@ -46,38 +40,30 @@ public class FishingController : MonoBehaviour
             { 
                 RandomFish();
             }
-
-
             else { return; }
-
         }
 
     }
 
-        private void OnDrawGizmos() 
+    private void OnDrawGizmos() 
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(center.position, fishingRadius);
     }
 
-
-
     void RandomFish()
     {
         int RandomwaitFish = Random.Range(1, 10);
-        Debug.Log(RandomwaitFish);
-        playerMove.PlayerFishing();
+        Debug.Log("Wait Fish");
         StartCoroutine(CreateGamefishing(RandomwaitFish));
 
     }
 
-
     IEnumerator CreateGamefishing(int RandomwaitFish)
     {
         yield return new WaitForSeconds(RandomwaitFish);
-        PreferGameFishingLable = Instantiate(PreferGameFishing, Vector3.zero, Quaternion.identity, GameObject.Find("/CanvasMain").transform);
-        GameFishing_main Playermoveingamefishing = PreferGameFishingLable.GetComponent<GameFishing_main>();
-        Playermoveingamefishing.playermove = playerMove;
+        gameFishing_Main.BarFishing_Image.fillAmount = 0.5f;
+        gameFishing_Main.gameObject.SetActive(true);
 
     }
 

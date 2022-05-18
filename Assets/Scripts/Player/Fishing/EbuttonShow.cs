@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class EbuttonShow : MonoBehaviour
 {
-    bool FishingRun = false;
-
-    public Transform center;
-    public float fishingRadius;
     public GameObject imageEbutton;
 
-    public void Start()
-    {   GetComponentInParent<MainPlayer>().CheckShowSpacebar += CheckShowSpacebar;  }
+    MainPlayer mainPlayer;
+    FishingController fishingController;
 
+    public void Start()
+    {   
+        mainPlayer = GetComponentInParent<MainPlayer>();
+        fishingController = GetComponent<FishingController>();
+    }
 
     void Update()
     {
@@ -21,10 +22,10 @@ public class EbuttonShow : MonoBehaviour
 
     void spacebarbuttonShow()
     {
-        Collider[] hit = Physics.OverlapSphere(center.position, fishingRadius);
+        Collider[] hit = Physics.OverlapSphere(fishingController.center.position, fishingController.fishingRadius);
         foreach (Collider n in hit)
         {
-            if (n.CompareTag("Water") && FishingRun != true)
+            if (n.CompareTag("Water") && !mainPlayer.clientData.isFishing)
             {
                 imageEbutton.SetActive(true);
                 return;
@@ -32,10 +33,4 @@ public class EbuttonShow : MonoBehaviour
         }
         imageEbutton.SetActive(false);
     }
-
-    void CheckShowSpacebar()
-    {
-        FishingRun = true;
-    }
-
 }

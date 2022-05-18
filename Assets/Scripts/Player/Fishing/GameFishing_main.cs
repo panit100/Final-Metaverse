@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class GameFishing_main : MonoBehaviour
 {
-    public PlayerMove playermove;
+    public MainPlayer mainPlayer;
     public Image BarFishing_Image;
+
+    private void Start() {
+        mainPlayer = GetComponentInParent<MainPlayer>();    
+    }
 
     void Update()
     {
@@ -40,8 +44,8 @@ public class GameFishing_main : MonoBehaviour
 
     void FinishFishing()
     {
-        playermove.PlayerFishing();
-        Destroy(gameObject);
+        mainPlayer.clientData.isFishing = false;
+        gameObject.SetActive(false);
     }
 
 
