@@ -16,7 +16,7 @@ public class ClientData
     public bool isFishing;
     public string chatText;
     public int fishCoin;
-    public int GoldCoin;
+    public int goldCoin;
 
     public ClientData(ulong _clientId,string _name)
     {
@@ -50,18 +50,23 @@ public class MainPlayer : NetworkBehaviour
     public InputField inputText;
     public bool isTyping = false;
 
+    // [Header("Fishing")]
+    // public GameObject fishingGame;
+
 
     public event Action SetPlayerNameUI = delegate { };
     public event Action SetPlayerChatText = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
-    public event Action<ClientData,int> SetCoin = delegate { };
+    public event Action ShowSpaceBar = delegate { };
+    public event Action<ClientData,int> SetGoldCoin = delegate { };
+    public event Action<ClientData,int> SetFishCoin = delegate { };
+    
 
 
     protected void Awake()
     {
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        
     }
 
     private void Start() 
@@ -80,6 +85,9 @@ public class MainPlayer : NetworkBehaviour
         }
 
         rigidbody = GetComponent<Rigidbody>();
+        
+        GetComponentInChildren<GameFishing_main>().OnEndFishing += OnEndFishingServerRpc;
+        GetComponentInChildren<FishingController>().HandleFishing += HandleFishingServerRpc;
     }
 
     public void Initialization(string name)
@@ -102,9 +110,11 @@ public class MainPlayer : NetworkBehaviour
 
     private void FixedUpdate() 
     {
-        if(isTyping || clientData.isFishing) return;
+        if(isTyping) return;
 
-        HandleMove();
+        if(!clientData.isFishing){
+            HandleMove();
+        }
 
         HandleFishing();
     }
@@ -145,18 +155,18 @@ public class MainPlayer : NetworkBehaviour
     {
         if(IsOwner && IsLocalPlayer)
         {
+            ShowSpaceBar();
+
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 if(!clientData.isFishing)
                 {
-                    HandleFishingServerRpc();
+                    Fishing();
                 }
             }
-
         }
-
     }
-   
+    
     [ServerRpc]
     public void HandleFishingServerRpc()
     {
@@ -166,8 +176,20 @@ public class MainPlayer : NetworkBehaviour
     [ClientRpc]
     public void HandleFishingClientRpc()
     {
-        Fishing();
         clientData.isFishing = true;
+    }
+
+    [ServerRpc]
+    public void OnEndFishingServerRpc()
+    {
+        OnEndFishingClientRpc();
+    }
+
+    [ClientRpc]
+    public void OnEndFishingClientRpc()
+    {
+        clientData.isFishing = false;
+        SetFishCoin(clientData,1);
     }
 
     //Chating

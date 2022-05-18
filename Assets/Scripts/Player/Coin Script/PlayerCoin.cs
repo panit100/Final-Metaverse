@@ -5,11 +5,17 @@ using UnityEngine;
 public class PlayerCoin : MonoBehaviour
 {
     private void Start() {
-        GetComponent<MainPlayer>().SetCoin += SetPlayerCoin;
+        GetComponentInParent<MainPlayer>().SetGoldCoin += SetPlayerGoldCoin;
+        GetComponentInParent<MainPlayer>().SetFishCoin += SetPlayerFishingCoin;
     }
 
-    public void SetPlayerCoin(ClientData player,int coin)
+    public void SetPlayerGoldCoin(ClientData player,int coin)
     {
-        player.GoldCoin += coin;
+        player.goldCoin += coin;
+    }
+
+    public void SetPlayerFishingCoin(ClientData player,int coin)
+    {
+        player.fishCoin += coin;
     }
 }

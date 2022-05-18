@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class FishingRodData
@@ -19,17 +18,18 @@ public class FishingRodData
 public class FishingController : MonoBehaviour
 {
     public FishingRodData fishingRod;
-    public PlayerMove playerMove;
 
     public GameFishing_main gameFishing_Main;
     public Transform center;
     public float fishingRadius;
 
+    public event Action HandleFishing = delegate { };
+
     void Start()
     {
         GetComponentInParent<MainPlayer>().Fishing += Fishing;
+        gameFishing_Main = GetComponentInParent<MainPlayer>().gameObject.GetComponentInChildren<GameFishing_main>();
     }
-
 
     void Fishing()
     {
@@ -39,10 +39,11 @@ public class FishingController : MonoBehaviour
             if(n.CompareTag("Water"))
             { 
                 RandomFish();
+                HandleFishing();
+                return;
             }
-            else { return; }
         }
-
+        return;
     }
 
     private void OnDrawGizmos() 
@@ -53,10 +54,9 @@ public class FishingController : MonoBehaviour
 
     void RandomFish()
     {
-        int RandomwaitFish = Random.Range(1, 10);
+        int RandomwaitFish = UnityEngine.Random.Range(1, 10);
         Debug.Log("Wait Fish");
         StartCoroutine(CreateGamefishing(RandomwaitFish));
-
     }
 
     IEnumerator CreateGamefishing(int RandomwaitFish)
@@ -64,7 +64,6 @@ public class FishingController : MonoBehaviour
         yield return new WaitForSeconds(RandomwaitFish);
         gameFishing_Main.BarFishing_Image.fillAmount = 0.5f;
         gameFishing_Main.gameObject.SetActive(true);
-
     }
 
 

@@ -13,11 +13,7 @@ public class EbuttonShow : MonoBehaviour
     {   
         mainPlayer = GetComponentInParent<MainPlayer>();
         fishingController = GetComponent<FishingController>();
-    }
-
-    void Update()
-    {
-        spacebarbuttonShow();
+        mainPlayer.ShowSpaceBar += spacebarbuttonShow;
     }
 
     void spacebarbuttonShow()
