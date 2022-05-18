@@ -28,6 +28,9 @@ public class ClientData
 
 public class MainPlayer : NetworkBehaviour
 {
+    //public MainPlayer Test;
+
+
     Rigidbody rigidbody;
     GameObject _mainCamera;
     StarterAssetsInputs _input;
@@ -53,6 +56,8 @@ public class MainPlayer : NetworkBehaviour
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
     public event Action Fishing = delegate { };
     public event Action<ClientData,int> SetCoin = delegate { };
+    public event Action CheckShowSpacebar = delegate { };
+
 
     protected void Awake()
     {
@@ -65,12 +70,14 @@ public class MainPlayer : NetworkBehaviour
         if(IsOwner && IsLocalPlayer)
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+         
             _input = GetComponent<StarterAssetsInputs>();
             // _input.SetCursorState(cursorState);
 
             _playerInput = GetComponent<PlayerInput>();
             _playerInput.enabled = true;
+
+            //Test.enabled = false;
         }
 
         rigidbody = GetComponent<Rigidbody>();
@@ -147,6 +154,7 @@ public class MainPlayer : NetworkBehaviour
             }
 
         }
+
     }
    
     [ServerRpc]
@@ -159,6 +167,7 @@ public class MainPlayer : NetworkBehaviour
     public void HandleFishingClientRpc()
     {
         Fishing();
+        CheckShowSpacebar();
         clientData.isFishing = true;
     }
 
