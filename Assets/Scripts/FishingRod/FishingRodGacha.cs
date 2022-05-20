@@ -16,17 +16,14 @@ public class GachaData
 public class FishingRodGacha : MonoBehaviour
 {
     public List<GachaData> gachaDatas = new List<GachaData>();
+
     // Start is called before the first frame update
     void Start()
     {
-        MainPlayer[] mainPlayer = FindObjectsOfType<MainPlayer>();
-        foreach(MainPlayer n in mainPlayer)
-        {
-            n.PlayGacha += GachaRandom;
-        }
+
     }
 
-    void GachaRandom(ClientData client)
+    public void GachaRandom(ClientData client)
     {
         float random = UnityEngine.Random.Range(0f,100f);
 
@@ -34,7 +31,10 @@ public class FishingRodGacha : MonoBehaviour
         {
             if(random >= gachaDatas[i].dropRateMin && random < gachaDatas[i].dropRateMax)
             {
-                client.fishingRod = gachaDatas[i].rod;
+                if(client.fishingRod.rank < gachaDatas[i].rod.rank)
+                {
+                    client.fishingRod = gachaDatas[i].rod;
+                }
             }
         }
     }

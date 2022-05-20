@@ -48,10 +48,6 @@ public class MainPlayer : NetworkBehaviour
     public InputField inputText;
     public bool isTyping = false;
 
-    // [Header("Fishing")]
-    // public GameObject fishingGame;
-
-
     public event Action SetPlayerNameUI = delegate { };
     public event Action SetPlayerChatText = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
@@ -61,8 +57,6 @@ public class MainPlayer : NetworkBehaviour
     public event Action<ClientData,int> SetFishCoin = delegate { };
     public event Action<ClientData> PlayGacha = delegate { };
     
-
-
     protected void Awake()
     {
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -79,6 +73,8 @@ public class MainPlayer : NetworkBehaviour
 
             _playerInput = GetComponent<PlayerInput>();
             _playerInput.enabled = true;
+
+            PlayGacha += FindObjectOfType<FishingRodGacha>().GachaRandom;
 
             //Test.enabled = false;
         }
@@ -121,7 +117,13 @@ public class MainPlayer : NetworkBehaviour
             HandleMove();
         }
 
-        HandleFishing();
+        if(IsOwner && IsLocalPlayer)
+        {
+            ShowSpaceBar();
+
+            HandleFishing();
+            HandlePlayGacha();
+        }
     }
 
     //Move
@@ -158,16 +160,11 @@ public class MainPlayer : NetworkBehaviour
     //Fishing
     public void HandleFishing()
     {
-        if(IsOwner && IsLocalPlayer)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            ShowSpaceBar();
-
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(!clientData.isFishing)
             {
-                if(!clientData.isFishing)
-                {
-                    Fishing();
-                }
+                Fishing();
             }
         }
     }
@@ -216,5 +213,41 @@ public class MainPlayer : NetworkBehaviour
     {
         clientData.chatText = data.chatText;
         SetPlayerChatText();
+    }
+
+    //Gacha
+    void HandlePlayGacha()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && (clientData.fishCoin >= 10 || clientData.goldCoin >= 10))
+        {
+            OnGachaShop();
+        }
+    }
+    void OnGachaShop()
+    {
+        Collider[] hit = Physics.OverlapSphere(transform.position, 1f);
+        foreach (Collider n in hit)
+        {
+            if(n.CompareTag("Gacha"))
+            { 
+                if(clientData.fishCoin >= 10)
+                {
+                   clientData.fishCoin -= 10;
+                }else if(clientData.goldCoin >= 10)
+                {
+                    clientData.goldCoin -= 10;
+                }
+
+                PlayGacha(clientData);
+                Debug.Log("PlayGacha");
+            }
+        }
+        return;
+    }
+
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 1f);
     }
 }

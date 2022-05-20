@@ -26,6 +26,12 @@ public class EbuttonShow : MonoBehaviour
                 imageEbutton.SetActive(true);
                 return;
             }
+
+            if (n.CompareTag("Gacha"))
+            {
+                imageEbutton.SetActive(true);
+                return;
+            }
         }
         imageEbutton.SetActive(false);
     }
