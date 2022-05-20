@@ -4,17 +4,17 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - CinemachineTarget
-  - Water
-  - Gacha
+  - MainCanvas
+  - DeathZone
+  - Bomb
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
-  - Player
+  - 
   - 
   - 
   - 

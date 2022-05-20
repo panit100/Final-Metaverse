@@ -130,7 +130,7 @@ public class LoginManager : MonoBehaviour
     private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
     {
         string Approve = Encoding.ASCII.GetString(connectionData);
-        string[] Room = Approve.Split("_");
+        string[] Room = Approve.Split('_');
         bool approve1 = GetPlayerName(clientId,Room[0]);
         bool approve2 = ApprovePassword(Room[1]);
         
