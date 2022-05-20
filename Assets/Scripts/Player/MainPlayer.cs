@@ -56,6 +56,8 @@ public class MainPlayer : NetworkBehaviour
     public event Action<ClientData,int> SetGoldCoin = delegate { };
     public event Action<ClientData,int> SetFishCoin = delegate { };
     public event Action<ClientData> PlayGacha = delegate { };
+    public event Action SetCoinUI = delegate { };
+    public event Action SetFishingRodUI = delegate { }; 
     
     protected void Awake()
     {
@@ -77,6 +79,7 @@ public class MainPlayer : NetworkBehaviour
             PlayGacha += FindObjectOfType<FishingRodGacha>().GachaRandom;
 
             //Test.enabled = false;
+            
         }
 
         rigidbody = GetComponent<Rigidbody>();
@@ -98,6 +101,7 @@ public class MainPlayer : NetworkBehaviour
 
     private void Update() 
     {
+        HandleUI();
         HandleSetName();
 
         if(inputText.isFocused)
@@ -114,6 +118,7 @@ public class MainPlayer : NetworkBehaviour
         if(isTyping) return;
 
         if(!clientData.isFishing){
+            print("not fishing");
             HandleMove();
         }
 
@@ -129,8 +134,10 @@ public class MainPlayer : NetworkBehaviour
     //Move
     void HandleMove()
     {
+        print("move1");
         if(IsOwner && IsLocalPlayer)
         {
+            print("move2");
             MovePosition(_mainCamera,rigidbody);
         }
     }
@@ -243,6 +250,12 @@ public class MainPlayer : NetworkBehaviour
             }
         }
         return;
+    }
+
+    void HandleUI()
+    {
+        SetCoinUI();
+        SetFishingRodUI();
     }
 
     private void OnDrawGizmos() 

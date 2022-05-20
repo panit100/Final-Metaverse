@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 93399}
   - component: {fileID: 93400}
-  m_Layer: 6
+  - component: {fileID: 7964717933316387401}
+  m_Layer: 3
   m_Name: FishingRod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +28,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 727024225933987195}
   m_Father: {fileID: 8170894079813710154}
@@ -45,6 +45,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37bce3b54ebd9498dfea6f6b827909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishingRod: {fileID: 0}
+  center: {fileID: 727024225933987195}
+  fishingRadius: 1
+--- !u!114 &7964717933316387401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2797e63575abab4681d04f3174affd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageEbutton: {fileID: 0}
 --- !u!1 &4496484412644794286
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,8 +70,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 727024225933987195}
-  m_Layer: 6
-  m_Name: FishingArea
+  m_Layer: 3
+  m_Name: Fishingcenter
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -69,9 +85,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4496484412644794286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.899}
+  m_LocalPosition: {x: 0, y: 0, z: 1.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 93399}
   m_RootOrder: 0
@@ -88,7 +103,7 @@ GameObject:
   - component: {fileID: 2332229789860025090}
   - component: {fileID: 8177622786130156708}
   - component: {fileID: 1659728111777472716}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +120,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.417, z: 0.469}
   m_LocalScale: {x: 0.6683, y: 0.26492, z: 0.55508}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8170894079813710154}
   m_RootOrder: 1
@@ -129,7 +143,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -185,8 +198,8 @@ GameObject:
   - component: {fileID: 8170894079813710155}
   - component: {fileID: 8170894079813710148}
   - component: {fileID: 1984265138}
-  - component: {fileID: 2990120471984575525}
-  m_Layer: 6
+  - component: {fileID: 3904073601184165321}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -203,7 +216,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 93399}
   - {fileID: 7795803858864517371}
@@ -229,7 +241,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -273,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSmoothTime: 0.1
---- !u!114 &2990120471984575525
+--- !u!114 &3904073601184165321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,7 +293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8170894079813710150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -299,3 +310,4 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+  CanCommitToTransform: 0

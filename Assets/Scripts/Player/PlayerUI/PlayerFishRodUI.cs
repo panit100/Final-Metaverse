@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerFishRodUI : MonoBehaviour
 {
+    public GameObject fishingRod;
     public Image rodImg;
     public Text rodName;
     ClientData client;
@@ -12,6 +13,7 @@ public class PlayerFishRodUI : MonoBehaviour
     void Start()
     {
         client = GetComponentInParent<MainPlayer>().clientData;
+        GetComponentInParent<MainPlayer>().SetFishingRodUI += ShowFishingRodUI;
     }
 
     // Update is called once per frame
@@ -19,6 +21,11 @@ public class PlayerFishRodUI : MonoBehaviour
     {
         SetRodImg();
         SetRodName();
+    }
+
+    public void ShowFishingRodUI()
+    {
+        fishingRod.SetActive(true);
     }
 
     public void SetRodImg()

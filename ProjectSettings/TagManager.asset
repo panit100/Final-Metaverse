@@ -7,11 +7,13 @@ TagManager:
   - MainCanvas
   - DeathZone
   - Bomb
+  - Gacha
+  - Water
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

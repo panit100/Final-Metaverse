@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     void MovePosition(GameObject camera,Rigidbody rigidbody)
     {
+        print("move3");
         float Vertical = Input.GetAxis("Vertical");
         float Horizontal = Input.GetAxis("Horizontal");
 

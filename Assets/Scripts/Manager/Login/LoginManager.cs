@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using System;
 using System.Text;
-using Unity.Networking.Transport;
+using Unity.Netcode.Transports.UNET;
 
 
 public class LoginManager : MonoBehaviour
@@ -22,6 +22,11 @@ public class LoginManager : MonoBehaviour
     [Header("Client")]
     public List<ClientData> clientDatas = new List<ClientData>();
     public string password;
+
+    [Header("Transport")]
+    public string ipAddress = "127.0.0.1";
+    UNetTransport transport;
+    public string joinCode;
 
     public event Action SetCamera = delegate { };
     public event Action SetChatUI = delegate { };
@@ -98,16 +103,31 @@ public class LoginManager : MonoBehaviour
         SetChatUI();
     }    
 
-    public void Host() 
+    public void OnIpAddressChanged(string address)
     {
+        this.joinCode = address;
+    }
+
+    public async void Host() 
+    {
+        if(RelayManager.Instance.IsRelayEnabled)
+        {
+            await RelayManager.Instance.SetupRelay();
+        }
+
         NetworkManager.Singleton.NetworkConfig.ConnectionData =
            System.Text.Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost();
     }
 
-    public void Client() 
+    public async void Client() 
     {
+        if(RelayManager.Instance.IsRelayEnabled && !string.IsNullOrEmpty(joinCode))
+        {
+            await RelayManager.Instance.JoinRelay(joinCode);
+        }
+
         NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
         NetworkManager.Singleton.StartClient();
     }
