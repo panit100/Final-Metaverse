@@ -57,6 +57,8 @@ public class RelayManager : Singleton<RelayManager>
                 relayHostData.Key, relayHostData.ConnectionData);
 
         Debug.Log($"Relay Server Generated Join Code: {relayHostData.JoinCode}");
+        FindObjectOfType<LoginManager>().joinCode = relayHostData.JoinCode;
+        FindObjectOfType<LoginManager>().HandleJoinCodeUI();
 
         return relayHostData;
     }
@@ -85,6 +87,8 @@ public class RelayManager : Singleton<RelayManager>
             relayJoinData.Key, relayJoinData.ConnectionData, relayJoinData.HostConnectionData);
 
         Debug.Log($"Client Joined Game With Join Code: {joinCode}");
+        FindObjectOfType<LoginManager>().joinCode = joinCode;
+        FindObjectOfType<LoginManager>().HandleJoinCodeUI();
 
         return relayJoinData;
     }

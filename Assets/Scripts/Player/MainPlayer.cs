@@ -36,7 +36,7 @@ public class MainPlayer : NetworkBehaviour
     const float _threshold = 0.01f;
     float _cinemachineTargetYaw;
     
-    
+
     public ClientData clientData;
 
     [Header("Camera")]
@@ -101,7 +101,11 @@ public class MainPlayer : NetworkBehaviour
 
     private void Update() 
     {
-        HandleUI();
+        if(IsOwner && IsLocalPlayer)
+        {
+            HandleUI();
+        }
+        
         HandleSetName();
 
         if(inputText.isFocused)
