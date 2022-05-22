@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using System;
 using System.Text;
-using Unity.Networking.Transport;
+using Unity.Netcode.Transports.UNET;
 
 
 public class LoginManager : MonoBehaviour
@@ -22,6 +22,14 @@ public class LoginManager : MonoBehaviour
     [Header("Client")]
     public List<ClientData> clientDatas = new List<ClientData>();
     public string password;
+
+    [Header("Transport")]
+    public string ipAddress = "127.0.0.1";
+    UNetTransport transport;
+    public string joinCode;
+
+    [Header("JoinCode")]
+    public Text JoinCodeText;
 
     public event Action SetCamera = delegate { };
     public event Action SetChatUI = delegate { };
@@ -98,17 +106,35 @@ public class LoginManager : MonoBehaviour
         SetChatUI();
     }    
 
-    public void Host() 
+    public void OnIpAddressChanged(string address)
     {
+        this.joinCode = address;
+    }
+
+    public async void Host() 
+    {
+        if(RelayManager.Instance.IsRelayEnabled)
+        {
+            await RelayManager.Instance.SetupRelay();
+        }
+
+        // NetworkManager.Singleton.NetworkConfig.ConnectionData =
+        //    System.Text.Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
         NetworkManager.Singleton.NetworkConfig.ConnectionData =
-           System.Text.Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
+            System.Text.Encoding.ASCII.GetBytes(playerNameInputField.text);
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost();
     }
 
-    public void Client() 
+    public async void Client() 
     {
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
+        if(RelayManager.Instance.IsRelayEnabled && !string.IsNullOrEmpty(joinCode))
+        {
+            await RelayManager.Instance.JoinRelay(joinCode);
+        }
+
+        // NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(playerNameInputField.text + "_" + passwordInputfield.text);
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(playerNameInputField.text);
         NetworkManager.Singleton.StartClient();
     }
 
@@ -130,9 +156,11 @@ public class LoginManager : MonoBehaviour
     private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
     {
         string Approve = Encoding.ASCII.GetString(connectionData);
-        string[] Room = Approve.Split('_');
-        bool approve1 = GetPlayerName(clientId,Room[0]);
-        bool approve2 = ApprovePassword(Room[1]);
+        // string[] Room = Approve.Split('_');
+        // bool approve1 = GetPlayerName(clientId,Room[0]);
+        // bool approve2 = ApprovePassword(Room[1]);
+        bool approve1 = GetPlayerName(clientId,Approve);
+        // bool approve2 = ApprovePassword(Room[1]);
         
         // bool approveConnection = playerName != playerNameInputField.text;
 
@@ -142,7 +170,8 @@ public class LoginManager : MonoBehaviour
         // print("Count : " + NetworkManager.Singleton.ConnectedClients.Count);
 
         bool createPlayerObject = true;
-        callback(createPlayerObject, null, approve1 && approve2, spawnPosition, null);
+        // callback(createPlayerObject, null, approve1 && approve2, spawnPosition, null);
+        callback(createPlayerObject, null, approve1, spawnPosition, null);
     }
 
     bool GetPlayerName(ulong clientId,string clientName)
@@ -205,5 +234,11 @@ public class LoginManager : MonoBehaviour
                 NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject.GetComponent<MainPlayer>().Initialization(clientDatas[i].name);
             }
         }
+    }
+
+    public void HandleJoinCodeUI()
+    {
+        
+        JoinCodeText.text = "Join Code : " + joinCode;
     }
 }

@@ -36,7 +36,7 @@ public class MainPlayer : NetworkBehaviour
     const float _threshold = 0.01f;
     float _cinemachineTargetYaw;
     
-    
+
     public ClientData clientData;
 
     [Header("Camera")]
@@ -56,6 +56,8 @@ public class MainPlayer : NetworkBehaviour
     public event Action<ClientData,int> SetGoldCoin = delegate { };
     public event Action<ClientData,int> SetFishCoin = delegate { };
     public event Action<ClientData> PlayGacha = delegate { };
+    public event Action SetCoinUI = delegate { };
+    public event Action SetFishingRodUI = delegate { }; 
     
     protected void Awake()
     {
@@ -77,6 +79,7 @@ public class MainPlayer : NetworkBehaviour
             PlayGacha += FindObjectOfType<FishingRodGacha>().GachaRandom;
 
             //Test.enabled = false;
+            
         }
 
         rigidbody = GetComponent<Rigidbody>();
@@ -98,6 +101,11 @@ public class MainPlayer : NetworkBehaviour
 
     private void Update() 
     {
+        if(IsOwner && IsLocalPlayer)
+        {
+            HandleUI();
+        }
+        
         HandleSetName();
 
         if(inputText.isFocused)
@@ -243,6 +251,12 @@ public class MainPlayer : NetworkBehaviour
             }
         }
         return;
+    }
+
+    void HandleUI()
+    {
+        SetCoinUI();
+        SetFishingRodUI();
     }
 
     private void OnDrawGizmos() 

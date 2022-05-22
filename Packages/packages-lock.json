@@ -168,7 +168,7 @@
     },
     "com.unity.services.authentication": {
       "version": "1.0.0-pre.37",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "2.0.0",
@@ -203,6 +203,24 @@
         "com.unity.nuget.newtonsoft-json": "2.0.0",
         "com.unity.transport": "1.0.0-pre.10"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.services.vivox": {
+      "version": "15.1.170000-pre.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "2.0.0",
+        "com.unity.services.core": "1.1.0-pre.10",
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.settings-manager": {
+      "version": "2.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
