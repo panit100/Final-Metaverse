@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: KMUTT
-  productName: Netcode_class1
+  productName: FinalMeta
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.KMUTT.Netcodeclass1
+    Standalone: com.KMUTT.FinalMeta
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -666,7 +666,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Analytics: 1
+    Analytics: 0
     Build: 0
     Collab: 0
     Game Performance: 0
@@ -687,11 +687,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 2
-  cloudProjectId: 58542f69-7f7c-46ad-8f49-2713571be94d
+  cloudProjectId: b6f7f8ec-afc2-47df-98a7-d31d485d7585
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Netcode_class1
-  organizationId: yod_naraphol
+  projectName: FinalMeta (1)
+  organizationId: cuteza456
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
