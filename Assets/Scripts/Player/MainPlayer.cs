@@ -48,6 +48,9 @@ public class MainPlayer : NetworkBehaviour
     public InputField inputText;
     public bool isTyping = false;
 
+    [Header("FishingText")]
+    public GameObject fishingText;
+
     public event Action SetPlayerNameUI = delegate { };
     public event Action SetPlayerChatText = delegate { };
     public event Action<GameObject,Rigidbody> MovePosition = delegate { };
@@ -187,6 +190,7 @@ public class MainPlayer : NetworkBehaviour
     public void HandleFishingClientRpc()
     {
         clientData.isFishing = true;
+        fishingText.SetActive(true);
     }
 
     [ServerRpc]
@@ -199,6 +203,7 @@ public class MainPlayer : NetworkBehaviour
     public void OnEndFishingClientRpc(int coin)
     {
         clientData.isFishing = false;
+        fishingText.SetActive(false);
         SetFishCoin(clientData,coin);
     }
 
