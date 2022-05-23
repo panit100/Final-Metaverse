@@ -30,12 +30,12 @@ public class PlayerCoinUI : MonoBehaviour
 
     public void SetFishCoinText()
     {
-        FishCoinText.text = "Fish Coin : " + client.fishCoin;
+        FishCoinText.text = "" + client.fishCoin;
     }
 
     public void SetGoldCoinText()
     {
         // chat = _chat;
-        GoldCoinText.text = "Gold Coin : " + client.goldCoin;
+        GoldCoinText.text = "" + client.goldCoin;
     }
 }

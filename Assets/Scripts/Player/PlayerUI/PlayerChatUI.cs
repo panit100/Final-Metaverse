@@ -8,6 +8,8 @@ using System.Text;
 
 public class PlayerChatUI : NetworkBehaviour
 {
+
+    public GameObject ImageBG;
     public Text chatText;
     public string chat;
 
@@ -29,8 +31,10 @@ public class PlayerChatUI : NetworkBehaviour
     IEnumerator ShowChatText()
     {
         chatText.gameObject.SetActive(true);
+        ImageBG.SetActive(true);
 
         yield return new WaitForSeconds(5f);
         chatText.gameObject.SetActive(false);
+        ImageBG.SetActive(false);
     }
 }
