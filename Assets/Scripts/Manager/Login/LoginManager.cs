@@ -5,7 +5,6 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using System;
 using System.Text;
-using Unity.Netcode.Transports.UNET;
 
 
 public class LoginManager : MonoBehaviour
@@ -24,8 +23,6 @@ public class LoginManager : MonoBehaviour
     public string password;
 
     [Header("Transport")]
-    public string ipAddress = "127.0.0.1";
-    UNetTransport transport;
     public string joinCode;
 
     [Header("JoinCode")]
