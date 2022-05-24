@@ -35,6 +35,7 @@ public class MainPlayer : NetworkBehaviour
     PlayerInput _playerInput;
     const float _threshold = 0.01f;
     float _cinemachineTargetYaw;
+    public Animator animator;
     
 
     public ClientData clientData;
@@ -154,6 +155,10 @@ public class MainPlayer : NetworkBehaviour
     {
         if(IsOwner && IsLocalPlayer)
         {
+            if (_input.move.magnitude>0f)
+                animator.SetBool("isWalking", true);
+            else
+                animator.SetBool("isWalking", false);
             MovePosition(_mainCamera,rigidbody);
         }
     }
@@ -187,6 +192,7 @@ public class MainPlayer : NetworkBehaviour
         {
             if(!clientData.isFishing)
             {
+                animator.SetBool("isFishing", true);
                 Fishing();
             }
         }
@@ -217,6 +223,7 @@ public class MainPlayer : NetworkBehaviour
         clientData.isFishing = false;
         fishingText.SetActive(false);
         SetFishCoin(clientData,coin);
+        animator.SetBool("isFishing", false);
     }
 
     //Chating
@@ -293,17 +300,17 @@ public class MainPlayer : NetworkBehaviour
     public void RandomSkinClientRpc(ulong _skinOrder)
     {
         clientData.clientId = _skinOrder;
-        // switch(_skinOrder)
-        // {
-        //     case 0:
-        //         skin1.SetActive(true);
-        //         break;
-        //     case 1:
-        //         skin1.SetActive(true);
-        //         break;
-        //     case 2:
-        //         skin1.SetActive(true);
-        //         break;
-        // }
+         switch(_skinOrder)
+         {
+             case 0:
+                 skin1.SetActive(true);
+                 break;
+             case 1:
+                 skin1.SetActive(true);
+                 break;
+             case 2:
+                 skin1.SetActive(true);
+                 break;
+         }
     }
 }
