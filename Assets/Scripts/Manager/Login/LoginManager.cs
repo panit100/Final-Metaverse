@@ -29,7 +29,7 @@ public class LoginManager : MonoBehaviour
     public Text JoinCodeText;
 
     public event Action SetCamera = delegate { };
-    public event Action SetChatUI = delegate { };
+    public event Action SetChatAndOverLayUI = delegate { };
     public event Action connectedEvent = delegate { };
     public event Action disconnectedEvent = delegate { };
 
@@ -100,7 +100,7 @@ public class LoginManager : MonoBehaviour
     [ClientRpc]
     void HandleSetChatUIClientRpc()
     {
-        SetChatUI();
+        SetChatAndOverLayUI();
     }    
 
     public void OnIpAddressChanged(string address)
@@ -207,6 +207,26 @@ public class LoginManager : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+    int RandomPlayerSkin()
+    {
+        int _skin = 0;
+
+        if(NetworkManager.Singleton.ConnectedClients.Count == 0)
+        {
+            _skin = 0;
+        }
+        else if(NetworkManager.Singleton.ConnectedClients.Count == 1)
+        {
+            _skin = 1;
+        }
+        else if(NetworkManager.Singleton.ConnectedClients.Count == 1)
+        {
+            _skin = 2;
+        }
+
+        return _skin;
     }
 
     void SetClientData()
