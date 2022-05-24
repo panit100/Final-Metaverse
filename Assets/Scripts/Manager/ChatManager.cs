@@ -7,11 +7,11 @@ public class ChatManager : MonoBehaviour
 {   
     
     private void Start() {
-        FindObjectOfType<LoginManager>().SetChatUI += SettingChat;    
+        FindObjectOfType<LoginManager>().SetChatAndOverLayUI += SettingChatAndOverlay;    
     }
 
     // Update is called once per frame
-    void SettingChat()
+    void SettingChatAndOverlay()
     {
         MainPlayer[] player = FindObjectsOfType<MainPlayer>();
 
@@ -20,6 +20,8 @@ public class ChatManager : MonoBehaviour
             if(n.GetComponent<NetworkObject>().IsOwner)
             {
                 n.ChatCanvas.SetActive(true);
+                n.fishingRodUI.SetActive(false);
+                n.coinUI.SetActive(true);
             }
         }
     }

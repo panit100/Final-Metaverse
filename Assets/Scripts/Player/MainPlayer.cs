@@ -47,9 +47,19 @@ public class MainPlayer : NetworkBehaviour
     public GameObject ChatCanvas;
     public InputField inputText;
     public bool isTyping = false;
+    
+    [Header("Overlay")]
+    public GameObject coinUI;
+    public GameObject fishingRodUI;
+
 
     [Header("FishingText")]
     public GameObject fishingText;
+
+    [Header("Skin")]
+    public GameObject skin1;
+    public GameObject skin2;
+    public GameObject skin3;
 
     public event Action SetPlayerNameUI = delegate { };
     public event Action SetPlayerChatText = delegate { };
@@ -80,6 +90,8 @@ public class MainPlayer : NetworkBehaviour
             _playerInput.enabled = true;
 
             PlayGacha += FindObjectOfType<FishingRodGacha>().GachaRandom;
+
+            RandomSkinServerRpc(NetworkManager.Singleton.LocalClientId);
 
             //Test.enabled = false;
             
@@ -268,5 +280,30 @@ public class MainPlayer : NetworkBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 1f);
+    }
+
+    //Random Skin
+    [ServerRpc(RequireOwnership = false)]
+    public void RandomSkinServerRpc(ulong _skinOrder)
+    {
+        RandomSkinClientRpc(_skinOrder);
+    }
+
+    [ClientRpc]
+    public void RandomSkinClientRpc(ulong _skinOrder)
+    {
+        clientData.clientId = _skinOrder;
+        // switch(_skinOrder)
+        // {
+        //     case 0:
+        //         skin1.SetActive(true);
+        //         break;
+        //     case 1:
+        //         skin1.SetActive(true);
+        //         break;
+        //     case 2:
+        //         skin1.SetActive(true);
+        //         break;
+        // }
     }
 }

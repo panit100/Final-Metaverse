@@ -656,6 +656,8 @@ MonoBehaviour:
   ChatCanvas: {fileID: 2343554034855516234}
   inputText: {fileID: 6386031308309548109}
   isTyping: 0
+  coinUI: {fileID: 6598979528869973576}
+  fishingRodUI: {fileID: 9163849128982619869}
   fishingText: {fileID: 723480765090130925}
 --- !u!114 &6669747537914653406
 MonoBehaviour:
@@ -893,7 +895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1999164510439300778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1597,7 +1599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &353153848210212961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2339,7 +2341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3006648079220159864
 RectTransform:
   m_ObjectHideFlags: 0
