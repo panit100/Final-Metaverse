@@ -11,6 +11,8 @@ public class FishingController : MonoBehaviour
     public Transform center;
     public float fishingRadius;
 
+    public Animator animator;
+
     public event Action HandleFishing = delegate { };
 
     void Start()
@@ -30,7 +32,8 @@ public class FishingController : MonoBehaviour
         foreach (Collider n in hit)
         {
             if(n.CompareTag("Water"))
-            { 
+            {
+                animator.SetBool("isFishing", true);
                 RandomFish();
                 HandleFishing();
                 return;

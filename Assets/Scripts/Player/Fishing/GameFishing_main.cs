@@ -7,6 +7,7 @@ using System;
 
 public class GameFishing_main : MonoBehaviour
 {
+    public Animator animator;
     public Image BarFishing_Image;
     public FishingController fishingController; 
     MainPlayer mainPlayer;
@@ -39,9 +40,12 @@ public class GameFishing_main : MonoBehaviour
     {
         if (BarFishing_Image.fillAmount == 0)
         {
+            animator.SetBool("isFishing", false);
             gameObject.SetActive(false);
-        }else if (BarFishing_Image.fillAmount == 1)
+        }
+        else if (BarFishing_Image.fillAmount == 1)
         {
+            animator.SetBool("isFishing", false);
             OnEndFishing(fishingController.fishingRod.gainFish);
             gameObject.SetActive(false);
         }
