@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RookieRod
   m_EditorClassIdentifier: 
   name: RookieRod
-  image: {fileID: 21300000, guid: c2299dc595bbcf14992a0ab1b93144db, type: 3}
+  image: {fileID: 21300000, guid: 71a594a480e61694d9409a98bc812789, type: 3}
   rank: 0
   fishingChangeMin: 10
   fishingChangeMax: 20

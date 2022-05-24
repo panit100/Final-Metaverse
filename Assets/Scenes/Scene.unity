@@ -1334,9 +1334,6 @@ MonoBehaviour:
     dropRateMax: 90
   - rod: {fileID: 11400000, guid: c68d34ba2da572f45974889ccece15e0, type: 2}
     dropRateMin: 90
-    dropRateMax: 99
-  - rod: {fileID: 11400000, guid: c2fcc16342edfda4bbe097b383cde399, type: 2}
-    dropRateMin: 99
     dropRateMax: 100
 --- !u!65 &784659225
 BoxCollider:
