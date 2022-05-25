@@ -2572,6 +2572,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.65153927
       objectReference: {fileID: 0}
+    - target: {fileID: 3354897176453312504, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4496484412644794286, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -2599,6 +2603,10 @@ PrefabInstance:
     - target: {fileID: 7194207019234769378, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.99522233
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386821899934094318, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7964717933316387401, guid: 58eed1940929620409164bb9eb2c4537, type: 3}
       propertyPath: imageEbutton

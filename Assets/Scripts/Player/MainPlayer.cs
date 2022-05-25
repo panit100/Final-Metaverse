@@ -35,7 +35,7 @@ public class MainPlayer : NetworkBehaviour
     PlayerInput _playerInput;
     const float _threshold = 0.01f;
     float _cinemachineTargetYaw;
-    public Animator animator;
+    Animator animator;
     
 
     public ClientData clientData;
@@ -92,11 +92,13 @@ public class MainPlayer : NetworkBehaviour
 
             PlayGacha += FindObjectOfType<FishingRodGacha>().GachaRandom;
 
-            RandomSkinServerRpc(NetworkManager.Singleton.LocalClientId);
-
             //Test.enabled = false;
             
         }
+
+        animator = GetComponentInChildren<Animator>();
+
+        RandomSkinServerRpc(GetComponent<NetworkObject>().OwnerClientId);
 
         rigidbody = GetComponent<Rigidbody>();
         
@@ -156,12 +158,16 @@ public class MainPlayer : NetworkBehaviour
         if(IsOwner && IsLocalPlayer)
         {
             if (_input.move.magnitude>0f)
-                animator.SetBool("isWalking", true);
+                IsWalkServerRpc();
             else
-                animator.SetBool("isWalking", false);
+                IsNotWalkServerRpc();
             MovePosition(_mainCamera,rigidbody);
         }
     }
+
+    
+
+
 
     //Name
     void HandleSetName()
@@ -192,7 +198,7 @@ public class MainPlayer : NetworkBehaviour
         {
             if(!clientData.isFishing)
             {
-                animator.SetBool("isFishing", true);
+                IsFishingServerRpc();
                 Fishing();
             }
         }
@@ -223,7 +229,7 @@ public class MainPlayer : NetworkBehaviour
         clientData.isFishing = false;
         fishingText.SetActive(false);
         SetFishCoin(clientData,coin);
-        animator.SetBool("isFishing", false);
+        IsNotFishingServerRpc();
     }
 
     //Chating
@@ -306,11 +312,36 @@ public class MainPlayer : NetworkBehaviour
                  skin1.SetActive(true);
                  break;
              case 1:
-                 skin1.SetActive(true);
+                 skin2.SetActive(true);
                  break;
              case 2:
-                 skin1.SetActive(true);
+                 skin3.SetActive(true);
                  break;
          }
+    }
+
+    //Animation
+    [ServerRpc]
+    void IsWalkServerRpc()
+    {
+        animator.SetBool("isWalking", true);
+    }
+
+    [ServerRpc]
+    void IsNotWalkServerRpc()
+    {
+        animator.SetBool("isWalking", false);
+    }
+
+    [ServerRpc]
+    void IsFishingServerRpc()
+    {
+        animator.SetBool("isFishing", true);
+    }
+
+    [ServerRpc]
+    void IsNotFishingServerRpc()
+    {
+        animator.SetBool("isFishing", false);
     }
 }
