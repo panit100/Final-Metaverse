@@ -11,8 +11,6 @@ public class FishingController : MonoBehaviour
     public Transform center;
     public float fishingRadius;
 
-    public Animator animator;
-
     public event Action HandleFishing = delegate { };
 
     void Start()
@@ -33,7 +31,7 @@ public class FishingController : MonoBehaviour
         {
             if(n.CompareTag("Water"))
             {
-                animator.SetBool("isFishing", true);
+                GetComponentInParent<MainPlayer>().IsFishingServerRpc();
                 RandomFish();
                 HandleFishing();
                 return;

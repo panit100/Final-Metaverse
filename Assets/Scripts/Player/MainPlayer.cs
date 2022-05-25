@@ -198,7 +198,7 @@ public class MainPlayer : NetworkBehaviour
         {
             if(!clientData.isFishing)
             {
-                IsFishingServerRpc();
+                
                 Fishing();
             }
         }
@@ -334,7 +334,7 @@ public class MainPlayer : NetworkBehaviour
     }
 
     [ServerRpc]
-    void IsFishingServerRpc()
+    public void IsFishingServerRpc()
     {
         animator.SetBool("isFishing", true);
     }
